@@ -1,20 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, ChevronDown, LogOut, Moon, Sun, User } from "lucide-react";
+import { ChevronDown, LogOut, Moon, Sun, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { signOut, useSession } from "@/lib/auth-client";
-
-function getInitials(name?: string | null) {
-  if (!name) return "NI";
-  const parts = name.trim().split(/\s+/);
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
-}
+import { NotificationsBell } from "@/components/notifications-bell";
+import { signOut } from "@/lib/auth-client";
 
 export function Header() {
-  const { data: session } = useSession();
   const router = useRouter();
   const [dark, setDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -51,8 +44,6 @@ export function Header() {
     router.refresh();
   };
 
-  const initials = getInitials(session?.user?.name);
-
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-[#e5e7eb] bg-white px-6">
       <div className="flex-1" />
@@ -79,14 +70,7 @@ export function Header() {
           </span>
         </button>
 
-        <button
-          type="button"
-          className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#dbeafe] text-[#6b7280] hover:text-[#111827]"
-          aria-label="Notifications"
-        >
-          <Bell className="h-4 w-4" />
-          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#ef4444]" />
-        </button>
+        <NotificationsBell />
 
         <div className="relative" ref={menuRef}>
           <button
@@ -97,7 +81,7 @@ export function Header() {
             aria-expanded={menuOpen}
           >
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ec4899] text-[12px] font-semibold text-white">
-              {initials}
+              AV
             </span>
             <ChevronDown className="h-4 w-4 text-[#6b7280]" />
           </button>
