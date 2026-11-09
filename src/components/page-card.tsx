@@ -25,6 +25,7 @@ export function PageCard({
           {showBack && (
             <Link
               href="/"
+              prefetch
               className="inline-flex items-center gap-1 rounded-md bg-[#2563eb] px-3 py-1.5 text-sm font-medium text-white hover:bg-[#1d4ed8]"
             >
               <ArrowLeft className="h-3.5 w-3.5" />

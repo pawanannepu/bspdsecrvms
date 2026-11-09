@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
+import { CardsSkeleton } from "@/components/table-skeleton";
 import { getDashboardCounts } from "@/lib/queries";
 
-export const instant = false;
+export const instant = true;
 
 const cards = [
   {
@@ -35,7 +37,7 @@ const cards = [
   },
 ];
 
-export default async function DashboardPage() {
+async function DashboardCards() {
   const counts = await getDashboardCounts();
 
   return (
@@ -50,6 +52,7 @@ export default async function DashboardPage() {
           <Link
             key={card.key}
             href={card.href}
+            prefetch
             className="flex min-h-[180px] flex-col items-center justify-center rounded-lg border border-[#e5e7eb] bg-white px-4 py-8 shadow-[0_2px_10px_rgba(15,23,42,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(15,23,42,0.1)]"
           >
             <Image
@@ -66,5 +69,13 @@ export default async function DashboardPage() {
         );
       })}
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<CardsSkeleton />}>
+      <DashboardCards />
+    </Suspense>
   );
 }

@@ -2,8 +2,6 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
 
-export const instant = false;
-
 export default function DashboardLayout({
   children,
 }: {

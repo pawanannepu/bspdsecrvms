@@ -1,15 +1,22 @@
+import { Suspense } from "react";
 import { PageCard } from "@/components/page-card";
+import { TableSkeleton } from "@/components/table-skeleton";
 import { getContractors } from "@/lib/queries";
 import { ContractorsTable } from "./contractors-table";
 
-export const instant = false;
+export const instant = true;
 
-export default async function ContractorsPage() {
+async function ContractorsContent() {
   const rows = await getContractors();
+  return <ContractorsTable rows={rows} />;
+}
 
+export default function ContractorsPage() {
   return (
     <PageCard title="Contractors">
-      <ContractorsTable rows={rows} />
+      <Suspense fallback={<TableSkeleton />}>
+        <ContractorsContent />
+      </Suspense>
     </PageCard>
   );
 }

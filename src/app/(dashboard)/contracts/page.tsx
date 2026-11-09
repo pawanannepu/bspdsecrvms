@@ -1,13 +1,18 @@
 import { Plus } from "lucide-react";
+import { Suspense } from "react";
 import { PageCard } from "@/components/page-card";
+import { TableSkeleton } from "@/components/table-skeleton";
 import { getContracts } from "@/lib/queries";
 import { ContractsTable } from "./contracts-table";
 
-export const instant = false;
+export const instant = true;
 
-export default async function ContractsPage() {
+async function ContractsContent() {
   const rows = await getContracts();
+  return <ContractsTable rows={rows} />;
+}
 
+export default function ContractsPage() {
   return (
     <PageCard
       title="Contracts"
@@ -21,7 +26,9 @@ export default async function ContractsPage() {
         </button>
       }
     >
-      <ContractsTable rows={rows} />
+      <Suspense fallback={<TableSkeleton />}>
+        <ContractsContent />
+      </Suspense>
     </PageCard>
   );
 }

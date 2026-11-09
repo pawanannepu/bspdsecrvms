@@ -1,4 +1,5 @@
-import { createClient, type Client } from "@libsql/client";
+import { createClient as createNodeClient, type Client } from "@libsql/client";
+import { createClient as createWebClient } from "@libsql/client/web";
 import { drizzle } from "drizzle-orm/libsql";
 import fs from "fs";
 import path from "path";
@@ -16,14 +17,16 @@ function resolveDatabaseUrl(): string {
 
   const dataDir = path.join(/*turbopackIgnore: true*/ process.cwd(), "data");
   fs.mkdirSync(dataDir, { recursive: true });
-  return `file:${path.join(dataDir, fileName)}`;
+  return `file:${path.join(/*turbopackIgnore: true*/ dataDir, fileName)}`;
 }
 
 const url = resolveDatabaseUrl();
+const authToken = process.env.TURSO_AUTH_TOKEN;
+const isRemote = /^https?:\/\//.test(url) || url.startsWith("libsql:");
 
-export const client: Client = createClient({
-  url,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
+// Vercel/serverless needs the fetch-based web client for remote Turso.
+export const client: Client = isRemote
+  ? createWebClient({ url, authToken })
+  : createNodeClient({ url, authToken });
 
 export const db = drizzle(client, { schema });

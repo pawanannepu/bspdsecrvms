@@ -4,10 +4,15 @@ import { nextCookies } from "better-auth/next-js";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
 
-const baseURL =
+function normalizeBaseURL(value: string) {
+  return value.replace(/\/+$/, "");
+}
+
+const baseURL = normalizeBaseURL(
   process.env.BETTER_AUTH_URL ||
-  process.env.NEXT_PUBLIC_APP_URL ||
-  "http://localhost:3000";
+    process.env.NEXT_PUBLIC_APP_URL ||
+    "http://localhost:3000",
+);
 
 export const auth = betterAuth({
   baseURL,

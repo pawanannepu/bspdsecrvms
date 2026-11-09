@@ -99,7 +99,7 @@ export function Sidebar() {
   return (
     <aside className="flex w-[220px] shrink-0 flex-col border-r border-[#e5e7eb] bg-white">
       <div className="flex items-center justify-center px-4 py-5">
-        <Link href="/" aria-label="Go to home">
+        <Link href="/" prefetch aria-label="Go to home">
           <Image
             src="/logo.png"
             alt="SECR Logo"
@@ -159,6 +159,7 @@ export function Sidebar() {
                         <Link
                           key={child.label}
                           href={child.href}
+                          prefetch
                           className={`block px-4 py-2 pl-11 text-[13px] transition-colors ${
                             active
                               ? "font-semibold text-[#111827]"
@@ -179,6 +180,7 @@ export function Sidebar() {
             <Link
               key={item.label}
               href={item.href!}
+              prefetch
               className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-[14px] transition-colors ${
                 isActive
                   ? "bg-[#f3f4f6] font-medium text-[#1f2937]"
