@@ -31,9 +31,6 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install OS build tools
-        run: sudo apt-get update && sudo apt-get install -y python3 make g++
-
       - name: Install dependencies
         run: npm ci
 
