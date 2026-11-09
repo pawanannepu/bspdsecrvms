@@ -9,8 +9,10 @@ import {
   LayoutGrid,
   Plus,
   Users,
+  X,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useMobileNav } from "@/components/dashboard-shell";
 
 type MenuChild = { label: string; href: string };
 type MenuItem = {
@@ -72,6 +74,7 @@ function isChildActive(pathname: string, children?: MenuChild[]) {
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { open, closeNav } = useMobileNav();
   const [manualOpenMenus, setManualOpenMenus] = useState<
     Record<string, boolean>
   >({});
@@ -97,7 +100,28 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="flex w-[220px] shrink-0 flex-col border-r border-[#e5e7eb] bg-white">
+    <>
+      {open ? (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+          onClick={closeNav}
+          aria-hidden
+        />
+      ) : null}
+    <aside
+      className={`fixed inset-y-0 left-0 z-50 flex w-[260px] max-w-[85vw] shrink-0 flex-col overflow-y-auto border-r border-[#e5e7eb] bg-white transition-transform duration-200 lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:w-[220px] lg:max-w-none lg:translate-x-0 ${
+        open ? "translate-x-0 shadow-xl" : "-translate-x-full"
+      }`}
+      aria-label="Main navigation"
+    >
+      <button
+        type="button"
+        onClick={closeNav}
+        className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6b7280] hover:bg-[#f3f4f6] lg:hidden"
+        aria-label="Close menu"
+      >
+        <X className="h-5 w-5" />
+      </button>
       <div className="flex items-center justify-center px-4 py-5">
         <Link href="/" prefetch aria-label="Go to home">
           <Image
@@ -194,5 +218,6 @@ export function Sidebar() {
         })}
       </nav>
     </aside>
+    </>
   );
 }

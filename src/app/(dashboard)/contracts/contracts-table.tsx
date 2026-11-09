@@ -40,7 +40,7 @@ export function ContractsTable({ rows }: { rows: Contract[] }) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-6">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -79,7 +79,7 @@ export function ContractsTable({ rows }: { rows: Contract[] }) {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full text-left text-sm">
+        <table className="min-w-full whitespace-nowrap text-left text-sm">
           <thead>
             <tr className="border-b border-[#e5e7eb] bg-[#f9fafb] text-[12px] uppercase tracking-wide text-[#9ca3af]">
               <th className="px-3 py-3 font-medium">Name</th>

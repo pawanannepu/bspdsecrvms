@@ -54,9 +54,9 @@ export default function StationVendorsPage() {
     vendor.Contractor.stationName[0] || activeStation;
 
   return (
-    <div className="min-h-[70vh] rounded-lg border border-[#e5e7eb] bg-white p-4 shadow-sm">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="font-serif text-[22px] font-bold text-[#1e3a5f]">
+    <div className="min-h-[70vh] rounded-lg border border-[#e5e7eb] bg-white p-3 shadow-sm sm:p-4">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="font-serif text-[18px] font-bold text-[#1e3a5f] sm:text-[22px]">
           Station Wise Vendors :{searched ? result.count : 0}
         </h2>
         <Link
@@ -72,7 +72,7 @@ export default function StationVendorsPage() {
         onSubmit={onSubmit}
         className="mb-2 flex flex-wrap items-center gap-3 rounded-md bg-[#eef2f6] px-3 py-3"
       >
-        <div className="flex min-w-[240px] items-center gap-2">
+        <div className="flex w-full items-center gap-2 sm:w-auto sm:min-w-[240px]">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -81,7 +81,7 @@ export default function StationVendorsPage() {
           />
           <button
             type="submit"
-            className="inline-flex h-9 w-9 items-center justify-center rounded bg-[#2563eb] text-white hover:bg-[#1d4ed8]"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded bg-[#2563eb] text-white hover:bg-[#1d4ed8]"
             aria-label="Search station"
           >
             <Search className="h-4 w-4" />
@@ -109,28 +109,28 @@ export default function StationVendorsPage() {
       </div>
 
       {!searched || (!loading && result.count === 0 && !activeStation) ? (
-        <div className="flex min-h-[420px] items-center justify-center">
-          <p className="font-serif text-[42px] font-bold text-[#1e3a5f]">
+        <div className="flex min-h-[240px] items-center justify-center sm:min-h-[420px]">
+          <p className="text-center font-serif text-[26px] font-bold text-[#1e3a5f] sm:text-[42px]">
             Enter Station Name
           </p>
         </div>
       ) : loading ? (
-        <div className="flex min-h-[420px] items-center justify-center text-sm text-[#6b7280]">
+        <div className="flex min-h-[240px] items-center justify-center text-sm text-[#6b7280] sm:min-h-[420px]">
           Fetching vendors...
         </div>
       ) : result.count === 0 ? (
-        <div className="flex min-h-[420px] flex-col items-center justify-center gap-2">
-          <p className="font-serif text-[28px] font-bold text-[#1e3a5f]">
+        <div className="flex min-h-[240px] flex-col items-center justify-center gap-2 px-2 sm:min-h-[420px]">
+          <p className="text-center font-serif text-[22px] font-bold text-[#1e3a5f] sm:text-[28px]">
             No vendors found
           </p>
-          <p className="text-sm text-[#6b7280]">
+          <p className="text-center text-sm text-[#6b7280]">
             No data for “{activeStation}”. Try Bilaspur, Korba, Shahdol,
             Raigarh, Champa, or Anuppur.
           </p>
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <div className="mb-2 flex gap-3 px-3 text-[12px] font-medium uppercase tracking-wide text-[#6b7280] md:hidden">
+          <div className="mb-2 hidden gap-3 px-3 text-[12px] font-medium uppercase tracking-wide text-[#6b7280] sm:flex md:hidden">
             <span className="flex-1">Station</span>
             <span className="flex-1">Vendor Name</span>
             <span className="flex-1">Category</span>
@@ -140,18 +140,32 @@ export default function StationVendorsPage() {
             {result.vendors.map((vendor) => (
               <div
                 key={vendor._id}
-                className="grid grid-cols-1 gap-2 px-3 py-4 text-sm text-[#374151] sm:grid-cols-4"
+                className="grid grid-cols-2 gap-x-3 gap-y-2 px-3 py-4 text-sm text-[#374151] sm:grid-cols-4"
               >
                 <div className="font-medium text-[#111827]">
+                  <span className="block text-[11px] font-medium uppercase tracking-wide text-[#9ca3af] sm:hidden">
+                    Station
+                  </span>
                   {displayStation(vendor)}
                 </div>
                 <div className="font-medium text-[#111827]">
+                  <span className="block text-[11px] font-medium uppercase tracking-wide text-[#9ca3af] sm:hidden">
+                    Vendor Name
+                  </span>
                   {formatVendorName(vendor)}
                 </div>
                 <div className="text-[#2563eb]">
+                  <span className="block text-[11px] font-medium uppercase tracking-wide text-[#9ca3af] sm:hidden">
+                    Category
+                  </span>
                   {vendor.Contractor.category}
                 </div>
-                <div>{vendor.Contractor.agency}</div>
+                <div>
+                  <span className="block text-[11px] font-medium uppercase tracking-wide text-[#9ca3af] sm:hidden">
+                    Agency
+                  </span>
+                  {vendor.Contractor.agency}
+                </div>
               </div>
             ))}
           </div>

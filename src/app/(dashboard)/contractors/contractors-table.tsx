@@ -23,7 +23,7 @@ export function ContractorsTable({ rows }: { rows: Contractor[] }) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full text-left text-sm">
+      <table className="min-w-full whitespace-nowrap text-left text-sm">
         <thead>
           <tr className="border-b border-[#e5e7eb] bg-[#f9fafb] text-[12px] uppercase tracking-wide text-[#9ca3af]">
             <th className="px-3 py-3 font-medium">Id</th>
@@ -33,7 +33,7 @@ export function ContractorsTable({ rows }: { rows: Contractor[] }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search"
-                className="mt-1 w-full rounded border border-[#d1d5db] px-2 py-1 text-[12px] normal-case tracking-normal text-[#111827] outline-none focus:border-[#2563eb]"
+                className="mt-1 w-full min-w-[140px] rounded border border-[#d1d5db] px-2 py-1 text-[12px] normal-case tracking-normal text-[#111827] outline-none focus:border-[#2563eb]"
               />
             </th>
             <th className="px-3 py-3 font-medium">Firm Type</th>

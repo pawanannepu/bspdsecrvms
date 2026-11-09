@@ -211,7 +211,7 @@ export default function AddContractPage() {
         <div className="flex justify-center pt-2">
           <button
             type="submit"
-            className="rounded-md bg-[#16a34a] px-10 py-2.5 text-[15px] font-medium text-white hover:bg-[#15803d]"
+            className="w-full rounded-md bg-[#16a34a] px-10 py-2.5 text-[15px] font-medium text-white hover:bg-[#15803d] sm:w-auto"
           >
             Save
           </button>

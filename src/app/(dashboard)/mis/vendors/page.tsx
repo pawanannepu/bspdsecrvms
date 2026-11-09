@@ -15,7 +15,7 @@ export default function VendorsMisPage() {
       ]}
     >
       <div className="overflow-x-auto">
-        <table className="min-w-full text-left text-sm">
+        <table className="min-w-full whitespace-nowrap text-left text-sm">
           <thead>
             <tr className="border-b border-[#e5e7eb] bg-[#f9fafb] text-[11px] uppercase tracking-wide text-[#9ca3af]">
               <th className="px-3 py-3 font-medium">Contract</th>

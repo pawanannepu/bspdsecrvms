@@ -134,15 +134,15 @@ export default function ApprovalStatusPage() {
 
   return (
     <div className="space-y-5">
-      <h2 className="text-center font-serif text-[22px] font-bold text-[#1f2937]">
+      <h2 className="text-center font-serif text-[18px] font-bold text-[#1f2937] sm:text-[22px]">
         Pending Approval Status
       </h2>
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <select
           value={reportType}
           onChange={(e) => setReportType(e.target.value)}
-          className="min-w-[220px] rounded border border-[#d1d5db] bg-white px-3 py-2 text-sm text-[#374151] outline-none focus:border-[#2563eb]"
+          className="w-full rounded border sm:w-auto sm:min-w-[220px] border-[#d1d5db] bg-white px-3 py-2 text-sm text-[#374151] outline-none focus:border-[#2563eb]"
         >
           <option>Pending Vendors Report</option>
           <option>Approved Vendors Report</option>
@@ -152,14 +152,14 @@ export default function ApprovalStatusPage() {
 
         <button
           type="button"
-          className="rounded-md bg-[#16a34a] px-4 py-2 text-sm font-medium text-white hover:bg-[#15803d]"
+          className="w-full rounded-md bg-[#16a34a] px-4 py-2 text-sm font-medium text-white hover:bg-[#15803d] sm:w-auto"
         >
           Export To Excel
         </button>
       </div>
 
       <div className="overflow-x-auto rounded-lg border border-[#e5e7eb] bg-white shadow-sm">
-        <table className="min-w-[1400px] w-full text-left text-sm">
+        <table className="w-full min-w-[1400px] whitespace-nowrap text-left text-sm">
           <thead>
             <tr className="border-b border-[#e5e7eb] bg-[#f9fafb] text-[11px] uppercase tracking-wide text-[#9ca3af]">
               <th className="px-3 py-3 font-medium">Contract Name</th>

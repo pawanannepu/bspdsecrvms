@@ -38,8 +38,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#f0f2f5] px-4">
-      <div className="w-full max-w-[420px] rounded-2xl bg-white px-8 py-10 shadow-[0_10px_40px_rgba(15,23,42,0.08)]">
+    <div className="flex min-h-dvh items-center justify-center bg-[#f0f2f5] px-4 py-8">
+      <div className="w-full max-w-[420px] rounded-2xl bg-white px-5 py-8 shadow-[0_10px_40px_rgba(15,23,42,0.08)] sm:px-8 sm:py-10">
         <div className="mb-6 flex flex-col items-center">
           <Image
             src="/logo.png"
@@ -49,7 +49,7 @@ export default function LoginPage() {
             className="mb-4 rounded-full"
             priority
           />
-          <h1 className="font-serif text-[28px] font-bold text-[#1e293b]">
+          <h1 className="font-serif text-[24px] font-bold text-[#1e293b] sm:text-[28px]">
             Welcome Back!
           </h1>
         </div>

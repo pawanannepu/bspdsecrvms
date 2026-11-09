@@ -134,13 +134,13 @@ export default function ContractLocSecPage() {
   }, [name, agency, section, station, category]);
 
   return (
-    <div className="rounded-lg border border-[#e5e7eb] bg-white p-4 shadow-sm">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="min-w-[140px]" />
-        <h2 className="text-center font-serif text-[22px] font-bold text-[#1f2937]">
+    <div className="rounded-lg border border-[#e5e7eb] bg-white p-3 shadow-sm sm:p-4">
+      <div className="mb-4 flex flex-col items-center gap-3 lg:flex-row lg:justify-between">
+        <div className="hidden min-w-[140px] lg:block" />
+        <h2 className="text-center font-serif text-[18px] font-bold text-[#1f2937] sm:text-[22px]">
           Station/Section wise Contracts
         </h2>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           <button
             type="button"
             className="inline-flex items-center gap-1.5 rounded-md bg-[#16a34a] px-3 py-2 text-sm font-medium text-white hover:bg-[#15803d]"
@@ -158,7 +158,7 @@ export default function ContractLocSecPage() {
         </div>
       </div>
 
-      <div className="mb-4 flex flex-wrap items-end gap-3 rounded-md bg-[#eef5fb] px-3 py-3">
+      <div className="mb-4 grid grid-cols-1 gap-3 rounded-md bg-[#eef5fb] px-3 py-3 sm:grid-cols-2 lg:flex lg:flex-wrap lg:items-end">
         <div className="min-w-[140px] flex-1">
           <label className="mb-1 block text-xs text-[#6b7280]">
             Search Name
@@ -221,7 +221,7 @@ export default function ContractLocSecPage() {
             type="date"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            className="rounded border border-[#d1d5db] bg-white px-3 py-2 text-sm outline-none focus:border-[#2563eb]"
+            className="w-full rounded border border-[#d1d5db] bg-white px-3 py-2 text-sm outline-none focus:border-[#2563eb]"
           />
         </div>
         <div>
@@ -230,13 +230,13 @@ export default function ContractLocSecPage() {
             type="date"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="rounded border border-[#d1d5db] bg-white px-3 py-2 text-sm outline-none focus:border-[#2563eb]"
+            className="w-full rounded border border-[#d1d5db] bg-white px-3 py-2 text-sm outline-none focus:border-[#2563eb]"
           />
         </div>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-[1150px] w-full text-left text-sm">
+        <table className="w-full min-w-[1150px] whitespace-nowrap text-left text-sm">
           <thead>
             <tr className="border-b border-[#e5e7eb] bg-[#f3f6f9] text-[11px] uppercase tracking-wide text-[#64748b]">
               <th className="px-3 py-3 font-medium">Name</th>

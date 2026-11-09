@@ -16,11 +16,11 @@ export function PageCard({
 }: PageCardProps) {
   return (
     <div className="rounded-lg border border-[#e5e7eb] bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-[#f3f4f6] px-5 py-4">
-        <h2 className="font-serif text-[20px] font-bold text-[#1f2937]">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#f3f4f6] px-4 py-3 sm:px-5 sm:py-4">
+        <h2 className="font-serif text-[18px] font-bold text-[#1f2937] sm:text-[20px]">
           {title}
         </h2>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {actions}
           {showBack && (
             <Link
@@ -34,7 +34,7 @@ export function PageCard({
           )}
         </div>
       </div>
-      <div className="p-4">{children}</div>
+      <div className="p-3 sm:p-4">{children}</div>
     </div>
   );
 }

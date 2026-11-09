@@ -11,7 +11,7 @@ async function AdminsTable() {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full text-left text-sm">
+      <table className="min-w-full whitespace-nowrap text-left text-sm">
         <thead>
           <tr className="border-b border-[#e5e7eb] bg-[#f9fafb] text-[12px] uppercase tracking-wide text-[#9ca3af]">
             <th className="px-4 py-3 font-medium">Name</th>

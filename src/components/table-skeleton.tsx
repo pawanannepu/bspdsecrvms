@@ -11,11 +11,11 @@ export function TableSkeleton({ rows = 6 }: { rows?: number }) {
 
 export function CardsSkeleton() {
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
       {Array.from({ length: 4 }).map((_, index) => (
         <div
           key={index}
-          className="min-h-[180px] animate-pulse rounded-lg border border-[#e5e7eb] bg-white"
+          className="min-h-[150px] animate-pulse sm:min-h-[180px] rounded-lg border border-[#e5e7eb] bg-white"
         />
       ))}
     </div>

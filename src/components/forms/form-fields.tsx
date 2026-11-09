@@ -148,14 +148,14 @@ export function FormCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto w-full max-w-4xl rounded-lg border border-[#e5e7eb] bg-white p-6 shadow-sm">
+    <div className="mx-auto w-full max-w-4xl rounded-lg border border-[#e5e7eb] bg-white p-4 shadow-sm sm:p-6">
       <div
-        className={`mb-6 flex items-center ${
+        className={`mb-5 flex flex-wrap items-center gap-3 sm:mb-6 ${
           backHref ? "justify-between" : "justify-center"
         }`}
       >
         <h2
-          className={`font-serif text-[24px] font-bold text-[#1e3a5f] ${
+          className={`font-serif text-[20px] font-bold text-[#1e3a5f] sm:text-[24px] ${
             centeredTitle && !backHref ? "text-center" : ""
           }`}
         >
@@ -177,7 +177,7 @@ export function FormCard({
 
 export function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="mb-4 font-serif text-[18px] font-bold text-[#4b5563]">
+    <h3 className="mb-4 font-serif text-[16px] font-bold text-[#4b5563] sm:text-[18px]">
       {children}
     </h3>
   );
@@ -196,7 +196,7 @@ export function FormSection({
     <section
       className={
         bordered
-          ? "mb-5 rounded-md border border-[#e5e7eb] p-4"
+          ? "mb-5 rounded-md border border-[#e5e7eb] p-3 sm:p-4"
           : "mb-6"
       }
     >

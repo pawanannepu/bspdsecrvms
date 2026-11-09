@@ -144,7 +144,7 @@ export function NotificationsBell() {
       </button>
 
       {open ? (
-        <div className="absolute right-0 z-40 mt-2 w-[340px] overflow-hidden rounded-lg border border-[#e5e7eb] bg-white shadow-xl">
+        <div className="fixed inset-x-3 top-16 z-40 overflow-hidden rounded-lg border border-[#e5e7eb] bg-white shadow-xl sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-[340px]">
           <div className="flex items-center justify-between border-b border-[#e5e7eb] px-4 py-3">
             <div>
               <p className="font-serif text-[15px] font-semibold text-[#1f2937]">
@@ -168,7 +168,7 @@ export function NotificationsBell() {
             ) : null}
           </div>
 
-          <div className="max-h-[360px] overflow-y-auto">
+          <div className="max-h-[60vh] overflow-y-auto sm:max-h-[360px]">
             {notifications.length === 0 ? (
               <p className="px-4 py-8 text-center text-sm text-[#6b7280]">
                 No notifications

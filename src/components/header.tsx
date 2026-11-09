@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronDown, LogOut, Moon, Sun, User } from "lucide-react";
+import { ChevronDown, LogOut, Menu, Moon, Sun, User } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useMobileNav } from "@/components/dashboard-shell";
 import { NotificationsBell } from "@/components/notifications-bell";
 import { signOut } from "@/lib/auth-client";
 
@@ -26,6 +27,7 @@ function getServerThemeSnapshot() {
 }
 
 export function Header() {
+  const { openNav } = useMobileNav();
   const dark = useSyncExternalStore(
     subscribeTheme,
     getThemeSnapshot,
@@ -66,12 +68,24 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-[#e5e7eb] bg-white px-6">
-      <div className="flex-1" />
-      <h1 className="text-center font-serif text-[18px] font-bold tracking-wide text-[#1e293b]">
-        WELCOME TO VENDOR MANAGEMENT SYSTEM BILASPUR-SECR
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-[#e5e7eb] bg-white px-3 sm:px-4 lg:px-6">
+      <div className="flex shrink-0 items-center xl:flex-1">
+        <button
+          type="button"
+          onClick={openNav}
+          className="inline-flex h-9 w-9 items-center justify-center rounded-md text-[#374151] hover:bg-[#f3f4f6] lg:hidden"
+          aria-label="Open menu"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+      </div>
+      <h1 className="min-w-0 flex-1 truncate text-center font-serif text-[14px] font-bold tracking-wide text-[#1e293b] sm:text-[16px] xl:flex-none xl:text-[18px]">
+        <span className="hidden md:inline">
+          WELCOME TO VENDOR MANAGEMENT SYSTEM BILASPUR-SECR
+        </span>
+        <span className="md:hidden">VMS BILASPUR-SECR</span>
       </h1>
-      <div className="flex flex-1 items-center justify-end gap-4">
+      <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-4 xl:flex-1">
         <button
           type="button"
           onClick={toggleTheme}
@@ -104,7 +118,7 @@ export function Header() {
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ec4899] text-[12px] font-semibold text-white">
               AV
             </span>
-            <ChevronDown className="h-4 w-4 text-[#6b7280]" />
+            <ChevronDown className="hidden h-4 w-4 text-[#6b7280] sm:block" />
           </button>
 
           {menuOpen && (
