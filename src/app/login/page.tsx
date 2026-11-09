@@ -2,11 +2,9 @@
 
 import Image from "next/image";
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -26,14 +24,15 @@ export default function LoginPage() {
 
       if (result.error) {
         setError(result.error.message || "Invalid email or password");
+        setLoading(false);
         return;
       }
 
-      router.replace("/");
-      router.refresh();
+      // Full reload once so the new session cookie is applied without a second RSC fetch.
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- auth handoff needs a hard navigation
+      window.location.assign("/");
     } catch {
       setError("Unable to sign in. Please try again.");
-    } finally {
       setLoading(false);
     }
   };

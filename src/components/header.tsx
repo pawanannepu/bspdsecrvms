@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { ChevronDown, LogOut, Moon, Sun, User } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { useRouter } from "next/navigation";
 import { NotificationsBell } from "@/components/notifications-bell";
 import { signOut } from "@/lib/auth-client";
 
@@ -27,7 +26,6 @@ function getServerThemeSnapshot() {
 }
 
 export function Header() {
-  const router = useRouter();
   const dark = useSyncExternalStore(
     subscribeTheme,
     getThemeSnapshot,
@@ -58,9 +56,13 @@ export function Header() {
 
   const handleLogout = async () => {
     setMenuOpen(false);
-    await signOut();
-    router.push("/login");
-    router.refresh();
+    try {
+      await signOut();
+    } finally {
+      // Full reload once — skip router.refresh() double wait after cookie clear.
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- auth handoff needs a hard navigation
+      window.location.assign("/login");
+    }
   };
 
   return (
