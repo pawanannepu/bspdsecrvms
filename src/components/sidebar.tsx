@@ -10,7 +10,7 @@ import {
   Plus,
   Users,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
 type MenuChild = { label: string; href: string };
 type MenuItem = {
@@ -72,20 +72,28 @@ function isChildActive(pathname: string, children?: MenuChild[]) {
 
 export function Sidebar() {
   const pathname = usePathname();
-  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+  const [manualOpenMenus, setManualOpenMenus] = useState<
+    Record<string, boolean>
+  >({});
 
-  useEffect(() => {
+  const pathOpenMenus = useMemo(() => {
     const next: Record<string, boolean> = {};
     for (const item of menuItems) {
       if (isChildActive(pathname, item.children)) {
         next[item.label] = true;
       }
     }
-    setOpenMenus((prev) => ({ ...prev, ...next }));
+    return next;
   }, [pathname]);
 
+  const isMenuOpen = (label: string) =>
+    label in manualOpenMenus
+      ? Boolean(manualOpenMenus[label])
+      : Boolean(pathOpenMenus[label]);
+
   const toggle = (label: string) => {
-    setOpenMenus((prev) => ({ ...prev, [label]: !prev[label] }));
+    const currentlyOpen = isMenuOpen(label);
+    setManualOpenMenus((prev) => ({ ...prev, [label]: !currentlyOpen }));
   };
 
   return (
@@ -120,7 +128,7 @@ export function Sidebar() {
             childActive;
 
           if (hasChildren) {
-            const isOpen = openMenus[item.label] ?? false;
+            const isOpen = isMenuOpen(item.label);
             return (
               <div key={item.label} className="rounded-md">
                 <button

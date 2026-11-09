@@ -50,27 +50,34 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
 
 const STORAGE_KEY = "vms-notifications";
 
+function readStoredNotifications(): NotificationItem[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      return JSON.parse(stored) as NotificationItem[];
+    }
+  } catch {
+    // ignore invalid storage
+  }
+  return INITIAL_NOTIFICATIONS;
+}
+
+function persistNotifications(items: NotificationItem[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  } catch {
+    // ignore quota / private mode errors
+  }
+}
+
 export function NotificationsBell() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [notifications, setNotifications] =
-    useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(
+    INITIAL_NOTIFICATIONS,
+  );
   const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setNotifications(JSON.parse(stored) as NotificationItem[]);
-      }
-    } catch {
-      // ignore invalid storage
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
-  }, [notifications]);
+  const restoredRef = useRef(false);
 
   useEffect(() => {
     function onClick(event: MouseEvent) {
@@ -82,16 +89,30 @@ export function NotificationsBell() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
+  const ensureRestored = () => {
+    if (restoredRef.current) return;
+    restoredRef.current = true;
+    setNotifications(readStoredNotifications());
+  };
+
   const unreadCount = notifications.filter((item) => !item.read).length;
 
   const markAsRead = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, read: true } : item)),
-    );
+    setNotifications((prev) => {
+      const next = prev.map((item) =>
+        item.id === id ? { ...item, read: true } : item,
+      );
+      persistNotifications(next);
+      return next;
+    });
   };
 
   const markAllAsRead = () => {
-    setNotifications((prev) => prev.map((item) => ({ ...item, read: true })));
+    setNotifications((prev) => {
+      const next = prev.map((item) => ({ ...item, read: true }));
+      persistNotifications(next);
+      return next;
+    });
   };
 
   const openNotification = (item: NotificationItem) => {
@@ -106,7 +127,10 @@ export function NotificationsBell() {
     <div className="relative" ref={panelRef}>
       <button
         type="button"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => {
+          ensureRestored();
+          setOpen((value) => !value);
+        }}
         className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#dbeafe] text-[#6b7280] hover:text-[#111827]"
         aria-label="Notifications"
         aria-expanded={open}

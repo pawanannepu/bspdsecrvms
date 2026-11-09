@@ -2,23 +2,43 @@
 
 import Link from "next/link";
 import { ChevronDown, LogOut, Moon, Sun, User } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { NotificationsBell } from "@/components/notifications-bell";
 import { signOut } from "@/lib/auth-client";
 
+const THEME_EVENT = "vms-theme-change";
+
+function subscribeTheme(onStoreChange: () => void) {
+  window.addEventListener("storage", onStoreChange);
+  window.addEventListener(THEME_EVENT, onStoreChange);
+  return () => {
+    window.removeEventListener("storage", onStoreChange);
+    window.removeEventListener(THEME_EVENT, onStoreChange);
+  };
+}
+
+function getThemeSnapshot() {
+  return localStorage.getItem("vms-theme") === "dark";
+}
+
+function getServerThemeSnapshot() {
+  return false;
+}
+
 export function Header() {
   const router = useRouter();
-  const [dark, setDark] = useState(false);
+  const dark = useSyncExternalStore(
+    subscribeTheme,
+    getThemeSnapshot,
+    getServerThemeSnapshot,
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem("vms-theme");
-    const isDark = stored === "dark";
-    setDark(isDark);
-    document.documentElement.classList.toggle("dark", isDark);
-  }, []);
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
 
   useEffect(() => {
     function onClick(event: MouseEvent) {
@@ -32,9 +52,8 @@ export function Header() {
 
   const toggleTheme = () => {
     const next = !dark;
-    setDark(next);
     localStorage.setItem("vms-theme", next ? "dark" : "light");
-    document.documentElement.classList.toggle("dark", next);
+    window.dispatchEvent(new Event(THEME_EVENT));
   };
 
   const handleLogout = async () => {
