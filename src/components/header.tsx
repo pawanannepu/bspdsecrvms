@@ -1,0 +1,130 @@
+"use client";
+
+import Link from "next/link";
+import { Bell, ChevronDown, LogOut, Moon, Sun, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { signOut, useSession } from "@/lib/auth-client";
+
+function getInitials(name?: string | null) {
+  if (!name) return "NI";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+}
+
+export function Header() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const [dark, setDark] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("vms-theme");
+    const isDark = stored === "dark";
+    setDark(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
+  }, []);
+
+  useEffect(() => {
+    function onClick(event: MouseEvent) {
+      if (!menuRef.current?.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    localStorage.setItem("vms-theme", next ? "dark" : "light");
+    document.documentElement.classList.toggle("dark", next);
+  };
+
+  const handleLogout = async () => {
+    setMenuOpen(false);
+    await signOut();
+    router.push("/login");
+    router.refresh();
+  };
+
+  const initials = getInitials(session?.user?.name);
+
+  return (
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-[#e5e7eb] bg-white px-6">
+      <div className="flex-1" />
+      <h1 className="text-center font-serif text-[18px] font-bold tracking-wide text-[#1e293b]">
+        WELCOME TO VENDOR MANAGEMENT SYSTEM BILASPUR-SECR
+      </h1>
+      <div className="flex flex-1 items-center justify-end gap-4">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="relative flex h-7 w-12 items-center rounded-full bg-[#e5e7eb] px-1 transition-colors dark:bg-[#374151]"
+          aria-label="Toggle theme"
+        >
+          <span
+            className={`flex h-5 w-5 items-center justify-center rounded-full bg-white shadow transition-transform ${
+              dark ? "translate-x-5" : "translate-x-0"
+            }`}
+          >
+            {dark ? (
+              <Moon className="h-3 w-3 text-[#4b5563]" />
+            ) : (
+              <Sun className="h-3 w-3 text-[#f59e0b]" />
+            )}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#dbeafe] text-[#6b7280] hover:text-[#111827]"
+          aria-label="Notifications"
+        >
+          <Bell className="h-4 w-4" />
+          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#ef4444]" />
+        </button>
+
+        <div className="relative" ref={menuRef}>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            className="flex items-center gap-1.5"
+            aria-haspopup="menu"
+            aria-expanded={menuOpen}
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ec4899] text-[12px] font-semibold text-white">
+              {initials}
+            </span>
+            <ChevronDown className="h-4 w-4 text-[#6b7280]" />
+          </button>
+
+          {menuOpen && (
+            <div className="absolute right-0 z-30 mt-2 w-44 overflow-hidden rounded-md border border-[#e5e7eb] bg-white shadow-lg">
+              <Link
+                href="/profile"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 font-serif text-[15px] text-[#374151] hover:bg-[#f9fafb]"
+              >
+                <User className="h-4 w-4" />
+                My Profile
+              </Link>
+              <div className="border-t border-[#e5e7eb]" />
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex w-full items-center gap-3 px-4 py-3 font-serif text-[15px] text-[#374151] hover:bg-[#f9fafb]"
+              >
+                <LogOut className="h-4 w-4" />
+                Log Out
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+  );
+}
