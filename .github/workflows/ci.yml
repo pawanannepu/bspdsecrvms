@@ -40,5 +40,9 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      # Cache Components prerenders list pages at build time — schema must exist.
+      - name: Seed database
+        run: npm run db:seed
+
       - name: Build
         run: npm run build
