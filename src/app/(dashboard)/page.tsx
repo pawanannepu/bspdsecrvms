@@ -53,14 +53,14 @@ async function DashboardCards() {
             key={card.key}
             href={card.href}
             prefetch
-            className="flex min-h-[150px] flex-col items-center justify-center rounded-lg border border-[#e5e7eb] bg-white px-4 py-6 sm:min-h-[180px] sm:py-8 shadow-[0_2px_10px_rgba(15,23,42,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(15,23,42,0.1)]"
+            className="dash-card flex min-h-[150px] flex-col items-center justify-center rounded-lg border border-[#e5e7eb] bg-white px-4 py-6 sm:min-h-[180px] sm:py-8 shadow-[0_2px_10px_rgba(15,23,42,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(15,23,42,0.1)]"
           >
             <Image
               src={card.icon}
               alt={card.label}
               width={72}
               height={72}
-              className="mb-4"
+              className="theme-icon mb-4"
             />
             <p className="text-center text-[16px] font-medium text-[#111827]">
               {title}

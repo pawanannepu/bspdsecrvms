@@ -2,24 +2,38 @@
 
 import Link from "next/link";
 import { ChevronDown, LogOut, Menu, Moon, Sun, User } from "lucide-react";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { useMobileNav } from "@/components/dashboard-shell";
 import { NotificationsBell } from "@/components/notifications-bell";
 import { signOut } from "@/lib/auth-client";
 
 const THEME_EVENT = "vms-theme-change";
 
-function subscribeTheme(onStoreChange: () => void) {
-  window.addEventListener("storage", onStoreChange);
-  window.addEventListener(THEME_EVENT, onStoreChange);
-  return () => {
-    window.removeEventListener("storage", onStoreChange);
-    window.removeEventListener(THEME_EVENT, onStoreChange);
-  };
-}
-
 function getThemeSnapshot() {
   return localStorage.getItem("vms-theme") === "dark";
+}
+
+function applyStoredTheme() {
+  document.documentElement.classList.toggle("dark", getThemeSnapshot());
+}
+
+function subscribeTheme(onStoreChange: () => void) {
+  const onChange = () => {
+    applyStoredTheme();
+    onStoreChange();
+  };
+  window.addEventListener("storage", onChange);
+  window.addEventListener(THEME_EVENT, onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(THEME_EVENT, onChange);
+  };
 }
 
 function getServerThemeSnapshot() {
@@ -36,9 +50,8 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
+  // Re-apply after a dev Strict Mode remount; reads storage, not hydration state.
+  useLayoutEffect(applyStoredTheme, []);
 
   useEffect(() => {
     function onClick(event: MouseEvent) {
@@ -51,9 +64,11 @@ export function Header() {
   }, []);
 
   const toggleTheme = () => {
-    const next = !dark;
-    localStorage.setItem("vms-theme", next ? "dark" : "light");
+    const root = document.documentElement;
+    root.classList.add("theme-transition");
+    localStorage.setItem("vms-theme", dark ? "light" : "dark");
     window.dispatchEvent(new Event(THEME_EVENT));
+    window.setTimeout(() => root.classList.remove("theme-transition"), 250);
   };
 
   const handleLogout = async () => {
@@ -68,7 +83,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-[#e5e7eb] bg-white px-3 sm:px-4 lg:px-6">
+    <header className="app-header sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-[#e5e7eb] bg-white px-3 sm:px-4 lg:px-6">
       <div className="flex shrink-0 items-center xl:flex-1">
         <button
           type="button"
@@ -89,16 +104,16 @@ export function Header() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="relative flex h-7 w-12 items-center rounded-full bg-[#e5e7eb] px-1 transition-colors dark:bg-[#374151]"
+          className="theme-track relative flex h-7 w-12 items-center rounded-full px-1 transition-colors"
           aria-label="Toggle theme"
         >
           <span
-            className={`flex h-5 w-5 items-center justify-center rounded-full bg-white shadow transition-transform ${
+            className={`theme-knob flex h-5 w-5 items-center justify-center rounded-full bg-white shadow transition-transform ${
               dark ? "translate-x-5" : "translate-x-0"
             }`}
           >
             {dark ? (
-              <Moon className="h-3 w-3 text-[#4b5563]" />
+              <Moon className="h-3 w-3 text-[#4f46e5]" />
             ) : (
               <Sun className="h-3 w-3 text-[#f59e0b]" />
             )}

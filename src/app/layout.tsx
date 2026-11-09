@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
@@ -28,6 +28,16 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f0f2f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0f1d" },
+  ],
+};
+
+// Applies the saved theme before first paint so dark mode never flashes light.
+const themeScript = `(function(){try{if(localStorage.getItem("vms-theme")==="dark")document.documentElement.classList.add("dark")}catch(e){}})()`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,7 +47,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${sourceSerif.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-full font-sans">{children}</body>
     </html>
   );

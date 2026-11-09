@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #f0f2f5;
   --foreground: #1f2937;
@@ -32,24 +34,6 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
-.dark body {
-  background: #0f172a;
-  color: #e2e8f0;
-}
-
-.dark aside,
-.dark header,
-.dark .rounded-lg.bg-white,
-.dark .bg-white {
-  background: #1e293b !important;
-  color: #e2e8f0;
-}
-
-.dark .border-\[\#e5e7eb\],
-.dark .border-\[\#f3f4f6\] {
-  border-color: #334155 !important;
-}
-
 input,
 select,
 button,
@@ -59,4 +43,247 @@ textarea {
 
 table {
   border-collapse: collapse;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark theme                                                          */
+/* Components use hard-coded light hex classes, so each one is remapped */
+/* here onto a single dark palette. These rules are unlayered on        */
+/* purpose so they win over Tailwind's layered utilities; hover/focus   */
+/* variants are remapped explicitly for the same reason.                */
+/* ------------------------------------------------------------------ */
+
+.dark {
+  color-scheme: dark;
+
+  --dk-bg: #0a0f1d;
+  --dk-surface: #111a2c;
+  --dk-surface-2: #16203a;
+  --dk-surface-3: #1c2844;
+  --dk-input: #0d1424;
+  --dk-border: #222e4a;
+  --dk-border-subtle: #1a2440;
+  --dk-border-input: #2b3a5c;
+  --dk-text-strong: #eef2fb;
+  --dk-heading: #dce6ff;
+  --dk-text: #c6d0e3;
+  --dk-text-soft: #a9b4ca;
+  --dk-text-muted: #8c98b2;
+  --dk-text-faint: #67738f;
+  --dk-accent: #7ea6ff;
+  --dk-accent-strong: #a8c3ff;
+  --dk-focus: #5b8cff;
+
+  --background: var(--dk-bg);
+  --foreground: var(--dk-text);
+  scrollbar-color: #2b3a5c transparent;
+}
+
+.dark body {
+  background:
+    radial-gradient(1100px 520px at 85% -10%, rgba(91, 140, 255, 0.1), transparent 60%),
+    radial-gradient(900px 480px at -10% 110%, rgba(129, 92, 246, 0.07), transparent 60%),
+    var(--dk-bg);
+  background-attachment: fixed;
+  color: var(--dk-text);
+}
+
+.dark ::selection {
+  background: rgba(91, 140, 255, 0.35);
+  color: #fff;
+}
+
+/* Surfaces */
+.dark .bg-white {
+  background-color: var(--dk-surface);
+}
+.dark .bg-\[\#f0f2f5\] {
+  background-color: transparent;
+}
+.dark .bg-\[\#f8fafc\] {
+  background-color: rgba(10, 15, 29, 0.6);
+}
+.dark .bg-\[\#f9fafb\],
+.dark .bg-\[\#f3f6f9\],
+.dark .bg-\[\#eef5fb\],
+.dark .bg-\[\#eef2f6\] {
+  background-color: var(--dk-surface-2);
+}
+.dark .bg-\[\#f3f4f6\] {
+  background-color: var(--dk-surface-3);
+}
+.dark .bg-\[\#e5e7eb\] {
+  background-color: #26324f;
+}
+
+/* Tinted status surfaces */
+.dark .bg-\[\#dbeafe\] {
+  background-color: rgba(91, 140, 255, 0.16);
+}
+.dark .bg-\[\#eff6ff\] {
+  background-color: rgba(91, 140, 255, 0.1);
+}
+.dark .bg-\[\#ecfdf5\] {
+  background-color: rgba(16, 185, 129, 0.12);
+}
+.dark .bg-\[\#fef2f2\] {
+  background-color: rgba(239, 68, 68, 0.12);
+}
+
+/* Text */
+.dark .text-\[\#111827\],
+.dark .text-\[\#1f2937\],
+.dark .text-\[\#1e293b\] {
+  color: var(--dk-text-strong);
+}
+.dark .text-\[\#1e3a5f\] {
+  color: var(--dk-heading);
+}
+.dark .text-\[\#374151\] {
+  color: var(--dk-text);
+}
+.dark .text-\[\#4b5563\] {
+  color: var(--dk-text-soft);
+}
+.dark .text-\[\#6b7280\],
+.dark .text-\[\#64748b\] {
+  color: var(--dk-text-muted);
+}
+.dark .text-\[\#9ca3af\] {
+  color: var(--dk-text-faint);
+}
+.dark .text-\[\#2563eb\],
+.dark .text-\[\#3b82f6\] {
+  color: var(--dk-accent);
+}
+.dark .text-\[\#1d4ed8\] {
+  color: var(--dk-accent-strong);
+}
+.dark .text-\[\#047857\] {
+  color: #6ee7b7;
+}
+.dark .text-\[\#dc2626\],
+.dark .text-\[\#d9534f\],
+.dark .text-\[\#ef4444\] {
+  color: #f87171;
+}
+
+/* Borders */
+.dark .border-\[\#e5e7eb\] {
+  border-color: var(--dk-border);
+}
+.dark .border-\[\#f3f4f6\] {
+  border-color: var(--dk-border-subtle);
+}
+.dark .border-\[\#d1d5db\],
+.dark .border-\[\#cbd5e1\] {
+  border-color: var(--dk-border-input);
+}
+.dark .divide-\[\#e5e7eb\] > :not(:last-child) {
+  border-color: var(--dk-border);
+}
+
+/* Interactive variants */
+.dark .hover\:bg-\[\#f9fafb\]:hover {
+  background-color: var(--dk-surface-2);
+}
+.dark .hover\:bg-\[\#f3f4f6\]:hover {
+  background-color: var(--dk-surface-3);
+}
+.dark .hover\:bg-\[\#e5e7eb\]:hover {
+  background-color: #26324f;
+}
+.dark .hover\:bg-\[\#eff6ff\]:hover {
+  background-color: rgba(91, 140, 255, 0.14);
+}
+.dark .hover\:text-\[\#111827\]:hover {
+  color: var(--dk-text-strong);
+}
+.dark .hover\:text-\[\#6b7280\]:hover {
+  color: var(--dk-text);
+}
+.dark .placeholder\:text-\[\#9ca3af\]::placeholder,
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--dk-text-faint) !important;
+}
+.dark .file\:bg-\[\#e5e7eb\]::file-selector-button {
+  background-color: #26324f;
+  color: var(--dk-text);
+}
+
+/* Form controls */
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.dark select,
+.dark textarea {
+  background-color: var(--dk-input);
+  color: var(--dk-text-strong);
+}
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+  border-color: var(--dk-focus);
+  box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.18);
+}
+.dark option {
+  background-color: var(--dk-surface);
+  color: var(--dk-text);
+}
+
+/* Depth */
+.dark .shadow-sm,
+.dark .shadow-lg,
+.dark .shadow-xl,
+.dark [class*="shadow-["] {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.03) inset,
+    0 10px 30px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* Signature pieces */
+.dark .app-header {
+  background-color: rgba(17, 26, 44, 0.78);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+}
+
+.dark .app-sidebar {
+  background-color: rgba(13, 20, 36, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .dash-card {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent);
+}
+.dark .dash-card:hover {
+  border-color: rgba(126, 166, 255, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(126, 166, 255, 0.15),
+    0 18px 40px -16px rgba(91, 140, 255, 0.35);
+}
+
+.dark .theme-icon {
+  filter: invert(0.92) hue-rotate(180deg) brightness(1.05);
+}
+
+.theme-track {
+  background-color: #e5e7eb;
+}
+.dark .theme-track {
+  background-image: linear-gradient(135deg, #3b4fa8, #6a4cc9);
+}
+.dark .theme-knob {
+  background-color: #eef2fb;
+}
+
+/* Brief cross-fade only while the user flips the theme. */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease !important;
 }

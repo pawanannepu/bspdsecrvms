@@ -109,7 +109,7 @@ export function Sidebar() {
         />
       ) : null}
     <aside
-      className={`fixed inset-y-0 left-0 z-50 flex w-[260px] max-w-[85vw] shrink-0 flex-col overflow-y-auto border-r border-[#e5e7eb] bg-white transition-transform duration-200 lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:w-[220px] lg:max-w-none lg:translate-x-0 ${
+      className={`app-sidebar fixed inset-y-0 left-0 z-50 flex w-[260px] max-w-[85vw] shrink-0 flex-col overflow-y-auto border-r border-[#e5e7eb] bg-white transition-transform duration-200 lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:w-[220px] lg:max-w-none lg:translate-x-0 ${
         open ? "translate-x-0 shadow-xl" : "-translate-x-full"
       }`}
       aria-label="Main navigation"
